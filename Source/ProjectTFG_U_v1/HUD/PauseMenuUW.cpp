@@ -3,19 +3,14 @@
 
 #include "ProjectTFG_U_v1/HUD/PauseMenuUW.h"
 #include "GameFramework/PlayerController.h"
-
-
 #include "Kismet/GameplayStatics.h"
 
 
 
 void UPauseMenuUW::ReanudeGame()
 {
-	APlayerController* FPC=GetWorld()->GetFirstPlayerController();   //<APlayerController>();
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red,FString::Printf(TEXT("Reanudar")));
-     
-	//UGameplayStatics::SetGamePaused(GetWorld(),false);
-	FPC->SetPause(false);
+	APlayerController* FPC=GetWorld()->GetFirstPlayerController(); 
+    FPC->SetPause(false);
 }
 
 void UPauseMenuUW::EndCurrentGame()

@@ -190,6 +190,23 @@ void AMyCharacterM::Pause()
 	}
 }
 
+void AMyCharacterM::Map()
+{
+	if(MapMenuClass!=nullptr)
+	{
+		UMapMenuUW* MapWidget=CreateWidget<UMapMenuUW>(GetWorld(), MapMenuClass);
+		if(MapWidget!=nullptr)
+		{
+			APlayerController* FPC=GetController<APlayerController>();
+			UGameplayStatics::PlaySound2D(this, SC_Open_Dialog);
+			MapWidget->AddToViewport();
+			FPC->SetInputMode(FInputModeUIOnly());
+			FPC->bShowMouseCursor=true;
+			FPC->SetPause(true);
+		}
+	}
+}
+
 
 //Up and Down
 void AMyCharacterM::TurnAtRate(float Rate)
@@ -331,7 +348,7 @@ void AMyCharacterM::WeaponSelection2()
 			{
 				KatanaInHand->SetVisibility(false);
 				KatanaInBack->SetVisibility(true);
-			}, 0.5, false); //timeTMP, false);
+			}, 0.5, false); 
 			PlayMyAnimation(Attack_Animation_Montage,-1.9f, SheatheSword,0.0f,true);
 		}
 	
@@ -384,6 +401,9 @@ void AMyCharacterM::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 	PlayerInputComponent->BindAction("WeaponSelection2", IE_Pressed,this, &AMyCharacterM::WeaponSelection2);
 	PlayerInputComponent->BindAction("WeaponSelection3", IE_Pressed,this, &AMyCharacterM::WeaponSelection3);
 
+    //Open Map
+	PlayerInputComponent->BindAction("Map", IE_Pressed,this, &AMyCharacterM::Map);
+	
 }
 
 void AMyCharacterM::ActivateSwordBoxCollision()
@@ -408,7 +428,7 @@ void AMyCharacterM::ViewDeathMenu()
 			APlayerController* FPC=GetController<APlayerController>();
 			UGameplayStatics::PlaySound2D(this, SC_Open_Dialog);
 			DeathWidget->AddToViewport();
-			FPC->SetInputMode( FInputModeGameAndUI());// FInputModeUIOnly());
+			FPC->SetInputMode( FInputModeGameAndUI());
 			FPC->bShowMouseCursor=true;
 			//FPC->SetPause(true);
 		}

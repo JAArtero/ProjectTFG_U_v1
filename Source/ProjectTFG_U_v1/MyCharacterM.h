@@ -15,6 +15,7 @@
 #include "ProjectTFG_U_v1/HUD/PauseMenuUW.h"
 #include "ProjectTFG_U_v1/HUD/DeathUW.h"
 #include "Components/BoxComponent.h"
+#include "HUD/MapMenuUW.h"
 
 //Ojo al final de los includes
 #include "MyCharacterM.generated.h"
@@ -140,7 +141,9 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UDeathUW> DeathMenuClass;
-	
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UMapMenuUW>MapMenuClass;
 	
 	//Collision box for Sword
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Collision", meta=(AllowPrivateAccess="true"))
@@ -186,6 +189,7 @@ protected:
 	void TumbleStart();
 	void TumbleStop();
 	void Pause();
+	void Map();
 
 	//Weapons
 	//Attack Action
