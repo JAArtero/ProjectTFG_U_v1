@@ -25,31 +25,14 @@ public:
 	
 	void RestartGameTimer();
 
-	
-	
-	//class AImpactFX* CreateImpactFX(UClass* ImpactfxClass);
-	
+		
 private:
 	UFUNCTION()
 	void OnRestartGame();
-
-public:
-	
-	//class AImpactFX* ImpactFX {nullptr};
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="HUDWindget")
-	//TSubclassOf<class UMyHUDWidget> UIPlayerHUD;
-	
-
-	
-private:
 	FTimerHandle RestartGame_TimerHandle{};
 
 protected:
 	void BeginPlay() override;
 
-protected:
-
-	//UPROPERTY(EditDefaultsOnly, Category="FX")
-	//TSubclassOf<class AImpactFX> BPImpactFX{};
 
 };

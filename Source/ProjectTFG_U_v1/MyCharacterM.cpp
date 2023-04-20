@@ -92,6 +92,22 @@ void AMyCharacterM::BeginPlay()
 	Super::BeginPlay();
 
 	KatanaInBack->SetVisibility(false);
+
+	//Restore values from Game Instant
+	Health=MyGameInstance->GetPlayerHealth();
+	MagicForce=MyGameInstance->GetPlayerMagicForce();
+	MAX_MAGICATTACK=MyGameInstance->GetPlayerMax_Magicattack();
+	MagicRest=MyGameInstance->GetPlayerMagicRest();
+	//MagicRestoreVelocity=MyGameInstance->GetPlayerMagicRestoreVelocity();
+	//HealthRestoreVelocity=MyGameInstance->GetPlayerHealthRestoreVelocity();
+	CurrentLevel=MyGameInstance->GetPlayerCurrentLevel();
+	bSwordIsActive=MyGameInstance->GetPlayerSwordIsActive();
+	bMagicIsActive=MyGameInstance->GetPlayerMagicIsActive();
+	MAX_Level=MyGameInstance->GetPlayerMax_Level();
+	NextLevelPoints=MyGameInstance->GetPlayerNextLevelPoints();
+	
+	//Stats
+	MagicRest=MagicForce/MAX_MAGICATTACK;
 	
 	//HUD Layer
 	if(IsLocallyControlled() && PlayerHUDClass) // && !isDead)
@@ -103,29 +119,13 @@ void AMyCharacterM::BeginPlay()
 		UIPlayerHUD->AddToPlayerScreen();
 		UIPlayerHUD->SetHealth(Health, MAX_HEALTH);
 		UIPlayerHUD->SetMagic(MagicForce,MAX_MagicForce);
-		UIPlayerHUD->SetLevel(Points, MAX_Level, NextLevelPoints,0);
-		UIPlayerHUD->SetLevelNumber(CurrentLevel);
+		//UIPlayerHUD->SetLevel(Points, MAX_Level, NextLevelPoints,);
+		//UIPlayerHUD->SetLevelNumber(CurrentLevel);
+		AddScore(MyGameInstance->GetPlayerPoints());
 	}
-	
-	//Restore values from Game Instant
-	//AddScore(0);
-	Health=MyGameInstance->GetPlayerHealth();
-	MagicForce=MyGameInstance->GetPlayerMagicForce();
-	MAX_MAGICATTACK=MyGameInstance->GetPlayerMax_Magicattack();
-	MagicRest=MyGameInstance->GetPlayerMagicRest();
-	MagicRestoreVelocity=MyGameInstance->GetPlayerMagicRestoreVelocity();
-	HealthRestoreVelocity=MyGameInstance->GetPlayerHealthRestoreVelocity();
-	AddScore(MyGameInstance->GetPlayerPoints());
-	CurrentLevel=MyGameInstance->GetPlayerCurrentLevel();
-	bSwordIsActive=MyGameInstance->GetPlayerSwordIsActive();
-	bMagicIsActive=MyGameInstance->GetPlayerMagicIsActive();
-	//Stats
-	MagicRest=MagicForce/MAX_MAGICATTACK;
-	//load data on screen
-	UpdateLevelHUD(CurrentLevel,Points, NextLevelPoints);
-	UpdateHealtBarHUD(Health);
-	UpdateMagicForceBarHUD();
-	
+
+	if (Health<100) RestoreHealthLevel();
+	if (MagicForce<100) RestoreMagicLevel();
 	
 	// Bind Function Overlap Sword
 	SwordCollision->OnComponentBeginOverlap.AddDynamic(this, &AMyCharacterM::OnSwordOverlap);
@@ -705,11 +705,14 @@ void AMyCharacterM::AddScore(float score)
 	{//Level 1
 		UpdateLevelHUD(0,Points,100);
 		MyGameInstance->SetPlayerCurrentLevel(0);
+		MyGameInstance->SetPlayerNextLevelPoints(100);
 	}
 	if(Points>=100 && Points<200)
 	{//Level 2
 		UpdateLevelHUD(1,Points-100,200);
 		MyGameInstance->SetPlayerCurrentLevel(1);
+		MyGameInstance->SetPlayerNextLevelPoints(200);
+
 	}
 	if(Points>=200 && Points<300)
 	{//Level 3
@@ -717,6 +720,7 @@ void AMyCharacterM::AddScore(float score)
 		MagicRestoreVelocity=0.8f;
 		HealthRestoreVelocity=0.8f;
 		MyGameInstance->SetPlayerCurrentLevel(2);
+		MyGameInstance->SetPlayerNextLevelPoints(300);
 		MyGameInstance->SetPlayerMagicRestoreVelocity(0.8);
 		MyGameInstance->SetPlayerHealthRestoreVelocity(0.8);
 	}
@@ -724,12 +728,15 @@ void AMyCharacterM::AddScore(float score)
 	{//Level4
 		UpdateLevelHUD(3,Points-300,400);
 		MyGameInstance->SetPlayerCurrentLevel(3);
+		MyGameInstance->SetPlayerNextLevelPoints(400);
+
 	}
 	if(Points>=400 && Points<=500)
 	{//Level 5
 		UpdateLevelHUD(4,Points-100,500);
 		MagicRestoreVelocity=0.6f;
 		MyGameInstance->SetPlayerCurrentLevel(4);
+		MyGameInstance->SetPlayerNextLevelPoints(500);
 		MyGameInstance->SetPlayerMagicRestoreVelocity(0.6);
 	}
 	if(Points>=500)
@@ -737,6 +744,7 @@ void AMyCharacterM::AddScore(float score)
 		MagicRestoreVelocity=0.5f;
 		HealthRestoreVelocity=0.6f;
 		MyGameInstance->SetPlayerCurrentLevel(5);
+		MyGameInstance->SetPlayerNextLevelPoints(500);
 		MyGameInstance->SetPlayerHealthRestoreVelocity(0.6);
 	}
 	

@@ -5,6 +5,7 @@
 
 
 
+
 float UProjectGameInstance::GetPlayerHealth() 
 {
 	return PlayerHealth;
@@ -103,4 +104,24 @@ bool UProjectGameInstance::GetPlayerMagicIsActive() const
 void UProjectGameInstance::SetPlayerMagicIsActive(bool bMagicIsActive)
 {
 	this->PlayerbMagicIsActive = bMagicIsActive;
+}
+
+float UProjectGameInstance::GetPlayerMax_Level() const
+{
+	return PlayerMAX_Level;
+}
+
+void UProjectGameInstance::SetPlayerMax_Level(float Max_Level)
+{
+	PlayerMAX_Level = Max_Level;
+}
+
+float UProjectGameInstance::GetPlayerNextLevelPoints() const
+{
+	return PlayerNextLevelPoints;
+}
+
+void UProjectGameInstance::SetPlayerNextLevelPoints(float NextLevelPoints)
+{
+	this->PlayerNextLevelPoints = NextLevelPoints;
 }
