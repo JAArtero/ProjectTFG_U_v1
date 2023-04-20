@@ -29,6 +29,7 @@ class PROJECTTFG_U_V1_API AMyCharacterM : public ACharacter
 
 	
 private:
+	
 	//Add my movement objects functions declarations
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera, meta=(AllowPrivateAccess="true"))
 	class USpringArmComponent* CameraBoom;
@@ -259,6 +260,9 @@ private:
 	FTimerHandle TimerMovement;
 	UCharacterMovementComponent* MoveCompRef = nullptr;
 
+	//Add Game instance
+	class UProjectGameInstance* MyGameInstance;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -269,7 +273,6 @@ public:
 	int GetWeaponSelected() const {return weaponSelectionKey;};
     float GetWalkVelocity() const {return WalkVelocity;};
 	bool GetIsTumble() const {return bIsTumble;};
-	//FORCEINLINE UHealthComponent* GetHealthComponent() const{return Health;};
 	UFUNCTION(BlueprintCallable )bool GetIsDeathPlayer() const {return isDead;};
 	UFUNCTION(BlueprintCallable )bool GetHitEvent() const {return bHitEvent;};
 
