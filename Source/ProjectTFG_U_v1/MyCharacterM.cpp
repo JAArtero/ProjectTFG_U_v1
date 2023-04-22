@@ -22,8 +22,11 @@
 #include "Kismet/GameplayStatics.h"
 #include "ProjectTFG_U_v1/Components/MeleeHitInterface.h"
 #include "ProjectTFG_U_v1GameModeBase.h"
+<<<<<<< HEAD
 #include "ProjectGameInstance.h"
 #include "Components/SplineComponent.h"
+=======
+>>>>>>> parent of ed6d83c (Add GameInstance)
 
 
 // Sets default values
@@ -80,10 +83,14 @@ BaseTurnRate(45.f), BaseLookUpRate(45.f) //Declaration
 	UIPlayerHUD=nullptr;
 	
     //Stats
+<<<<<<< HEAD
 	//MagicRest=nullptrMagicForce/MAX_MAGICATTACK;
 
 	MyGameInstance = Cast<UProjectGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	
+=======
+	MagicRest=MagicForce/MAX_MAGICATTACK;
+>>>>>>> parent of ed6d83c (Add GameInstance)
 }
 
 // Called when the game starts or when spawned
@@ -122,6 +129,7 @@ void AMyCharacterM::BeginPlay()
 		UIPlayerHUD->SetMagic(MagicForce,MAX_MagicForce);
 		UIPlayerHUD->SetLevel(Points, MAX_Level, NextLevelPoints,0);
 		UIPlayerHUD->SetLevelNumber(CurrentLevel);
+<<<<<<< HEAD
 		//AddScore(MyGameInstance->GetPlayerPoints());
 		AddScore(0);
 	}
@@ -129,6 +137,12 @@ void AMyCharacterM::BeginPlay()
 	//if (Health<100) RestoreHealthLevel();
 	//if (MagicForce<100) RestoreMagicLevel();
 	
+=======
+		
+		AddScore(0);
+	}
+
+>>>>>>> parent of ed6d83c (Add GameInstance)
 	// Bind Function Overlap Sword
 	SwordCollision->OnComponentBeginOverlap.AddDynamic(this, &AMyCharacterM::OnSwordOverlap);
 	
@@ -154,9 +168,11 @@ void AMyCharacterM::MoveForward(float Value)
 		//Rotation
 		const FRotator Rotation=Controller->GetControlRotation();
 		const FRotator YawRotation(0,Rotation.Yaw,0); //Rotation in z (yaw)
+
 		const FVector Direction=FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);//Vector direction
 		AddMovementInput(Direction,Value);
 	}
+	
 }
 
 void AMyCharacterM::MoveRight(float Value)
@@ -169,6 +185,7 @@ void AMyCharacterM::MoveRight(float Value)
 
 		const FVector Direction=FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);//Vector direction
 		AddMovementInput(Direction,Value);
+		
 	}
 }
 
@@ -196,6 +213,7 @@ void AMyCharacterM::TumbleStop()
 //Pause Game
 void AMyCharacterM::Pause()
 {
+		
 	if(PauseMenuClass!=nullptr)
 	{
 		UPauseMenuUW* PauseWidget=CreateWidget<UPauseMenuUW>(GetWorld(), PauseMenuClass);
@@ -245,6 +263,7 @@ void AMyCharacterM::LookAtRate(float Rate)
 void AMyCharacterM::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
 }
 
 //Ejecute Attack
@@ -290,9 +309,9 @@ void AMyCharacterM::Fire()
 }
 
 void AMyCharacterM::HardFire()
-{	
+{
 	FName SocketPlay=FName(TEXT("Super_Attack_Sword"));
-	if(weaponSelectionKey==1 && MagicForce>0 && MagicForce>=MagicRest)
+	if(weaponSelectionKey==1)
 	{
 		//Hard animation to weapon 1
 		PlayMyAnimation(Attack_Animation_Montage,1.0f, SocketPlay,0.0f,true);
@@ -324,9 +343,7 @@ void AMyCharacterM::HardFire()
 			//Draw the radius of action for checks
 			//DrawDebugSphere(GetWorld(), GetActorLocation(), ExplosionRadius, 16, FColor::Yellow, false, 5.0f,0 , 3.0f );
 		}, 1.50, false);
-		MagicForce=FMath::Clamp(MagicForce-MagicRest,0.0f, MAX_MagicForce);
-		UpdateMagicForceBarHUD();
-		RestoreMagicLevel();
+
 	}
 }
 
@@ -455,15 +472,17 @@ void AMyCharacterM::ViewDeathMenu()
 			//FPC->SetPause(true);
 		}
 	}
+
+	
 }
 
 bool AMyCharacterM::SetActivateSword(bool ActiveSword)
 {
 	bSwordIsActive=ActiveSword;
-	MyGameInstance->SetPlayerSwordIsActive(ActiveSword);
 	UGameplayStatics::PlaySound2D(this, SC_Change_Weapon_Sound);
 	UIPlayerHUD->SetSwordAvailable(1);
 	KatanaInBack->SetVisibility(true);
+
 	return true;
 	
 }
@@ -471,7 +490,6 @@ bool AMyCharacterM::SetActivateSword(bool ActiveSword)
 bool AMyCharacterM::SetActiveMagic(bool ActiveMagic)
 {
 	bMagicIsActive=ActiveMagic;
-	MyGameInstance->SetPlayerMagicIsActive(ActiveMagic);
 	UGameplayStatics::PlaySound2D(this, SC_Change_Weapon_Sound);
 	UIPlayerHUD->SetMagicAvailable(1);
 	return true;
@@ -599,7 +617,6 @@ float AMyCharacterM::TakeDamage(float DamageAmount, FDamageEvent const& DamageEv
 	if(!isDead)
 	{
 		Health=FMath::Clamp(Health-DamageAmount,0.0f, MAX_HEALTH);
-		MyGameInstance->SetPlayerHealth(Health);
 		UpdateHealtBarHUD(Health);
 		if(Health<=0 || isDead)
 		{
@@ -657,8 +674,6 @@ bool AMyCharacterM::Heal( float amount)
 	if(Health>=MAX_HEALTH){return false;}
 
 	Health=FMath::Clamp(Health+amount, 0.0f, MAX_HEALTH);
-	MyGameInstance->SetPlayerHealth(Health);
-	
 	if(!isDead)
 	{
 		UpdateHealtBarHUD(Health);
@@ -700,54 +715,71 @@ void AMyCharacterM::EndPlay(const EEndPlayReason::Type EndPlayReason)
 void AMyCharacterM::AddScore(float score)
 {
 	Points+=score;
-	MyGameInstance->SetPlayerPoints(Points);
    	
 //update level based on current score
 	if(Points>=0 && Points<100)
 	{//Level 1
 		UpdateLevelHUD(0,Points,100);
+<<<<<<< HEAD
 		MyGameInstance->SetPlayerCurrentLevel(0);
 		MyGameInstance->SetPlayerNextLevelPoints(100);
+=======
+>>>>>>> parent of ed6d83c (Add GameInstance)
 	}
 	if(Points>=100 && Points<200)
 	{//Level 2
 		UpdateLevelHUD(1,Points-100,200);
+<<<<<<< HEAD
 		MyGameInstance->SetPlayerCurrentLevel(1);
 		MyGameInstance->SetPlayerNextLevelPoints(200);
 
+=======
+>>>>>>> parent of ed6d83c (Add GameInstance)
 	}
 	if(Points>=200 && Points<300)
 	{//Level 3
 		UpdateLevelHUD(2,Points-200,300);
 		MagicRestoreVelocity=0.8f;
+<<<<<<< HEAD
 		HealthRestoreVelocity=0.8f;
 		MyGameInstance->SetPlayerCurrentLevel(2);
 		MyGameInstance->SetPlayerNextLevelPoints(300);
 		MyGameInstance->SetPlayerMagicRestoreVelocity(0.8);
 		MyGameInstance->SetPlayerHealthRestoreVelocity(0.8);
+=======
+>>>>>>> parent of ed6d83c (Add GameInstance)
 	}
 	if(Points>=300 && Points<400)
 	{//Level4
 		UpdateLevelHUD(3,Points-300,400);
+<<<<<<< HEAD
 		MyGameInstance->SetPlayerCurrentLevel(3);
 		MyGameInstance->SetPlayerNextLevelPoints(400);
 
+=======
+>>>>>>> parent of ed6d83c (Add GameInstance)
 	}
 	if(Points>=400 && Points<=500)
 	{//Level 5
 		UpdateLevelHUD(4,Points-100,500);
 		MagicRestoreVelocity=0.6f;
+<<<<<<< HEAD
 		MyGameInstance->SetPlayerCurrentLevel(4);
 		MyGameInstance->SetPlayerNextLevelPoints(500);
 		MyGameInstance->SetPlayerMagicRestoreVelocity(0.6);
+=======
+>>>>>>> parent of ed6d83c (Add GameInstance)
 	}
 	if(Points>=500)
 	{
 		MagicRestoreVelocity=0.5f;
 		HealthRestoreVelocity=0.6f;
+<<<<<<< HEAD
 		MyGameInstance->SetPlayerCurrentLevel(5);
 		MyGameInstance->SetPlayerNextLevelPoints(500);
 		MyGameInstance->SetPlayerHealthRestoreVelocity(0.6);
+=======
+>>>>>>> parent of ed6d83c (Add GameInstance)
 	}
 	
 }
@@ -761,7 +793,6 @@ void AMyCharacterM::RestoreMagicLevel()
 		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&]()
 		{
 			MagicForce=FMath::Clamp(MagicForce+0.1f,0.0, MAX_MagicForce);
-			MyGameInstance->SetPlayerMagicForce(MagicForce);
 			UpdateMagicForceBarHUD();
 			 if(MagicForce==MAX_MagicForce){return;};
 		}, MagicRestoreVelocity, true);
@@ -776,9 +807,7 @@ void AMyCharacterM::RestoreHealthLevel()
 		FTimerHandle TimerHandle;
 		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&]()
 		{
-			//Health=Health+0.1f;
-			Health=FMath::Clamp(Health+0.1f,0.0,MAX_HEALTH);
-			MyGameInstance->SetPlayerHealth(Health);
+			Health=Health+0.1f;
 			UpdateHealtBarHUD(Health);
 			if(Health==MAX_HEALTH){return;};
 		}, HealthRestoreVelocity, true);
