@@ -16,10 +16,10 @@ class PROJECTTFG_U_V1_API UProjectGameInstance : public UGameInstance
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Stats, meta=(AllowPrivateAccess="true"))
-	float PlayerHealth {50.0f};
+	float PlayerHealth {100.0f};
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Stats, meta=(AllowPrivateAccess="true"))
-	float PlayerMagicForce {50.0f};
+	float PlayerMagicForce {100.0f};
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Stats, meta=(AllowPrivateAccess="true"))
 	float PlayerMAX_MAGICATTACK {4.0f};

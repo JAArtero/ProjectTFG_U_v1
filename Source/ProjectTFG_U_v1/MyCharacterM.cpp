@@ -23,6 +23,7 @@
 #include "ProjectTFG_U_v1/Components/MeleeHitInterface.h"
 #include "ProjectTFG_U_v1GameModeBase.h"
 #include "ProjectGameInstance.h"
+#include "Components/SplineComponent.h"
 
 
 // Sets default values
@@ -79,9 +80,8 @@ BaseTurnRate(45.f), BaseLookUpRate(45.f) //Declaration
 	UIPlayerHUD=nullptr;
 	
     //Stats
-	//MagicRest=MagicForce/MAX_MAGICATTACK;
-	
-	
+	//MagicRest=nullptrMagicForce/MAX_MAGICATTACK;
+
 	MyGameInstance = Cast<UProjectGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	
 }
@@ -93,6 +93,7 @@ void AMyCharacterM::BeginPlay()
 
 	KatanaInBack->SetVisibility(false);
 
+/*	
 	//Restore values from Game Instant
 	Health=MyGameInstance->GetPlayerHealth();
 	MagicForce=MyGameInstance->GetPlayerMagicForce();
@@ -105,7 +106,7 @@ void AMyCharacterM::BeginPlay()
 	bMagicIsActive=MyGameInstance->GetPlayerMagicIsActive();
 	MAX_Level=MyGameInstance->GetPlayerMax_Level();
 	NextLevelPoints=MyGameInstance->GetPlayerNextLevelPoints();
-	
+*/	
 	//Stats
 	MagicRest=MagicForce/MAX_MAGICATTACK;
 	
@@ -119,13 +120,14 @@ void AMyCharacterM::BeginPlay()
 		UIPlayerHUD->AddToPlayerScreen();
 		UIPlayerHUD->SetHealth(Health, MAX_HEALTH);
 		UIPlayerHUD->SetMagic(MagicForce,MAX_MagicForce);
-		//UIPlayerHUD->SetLevel(Points, MAX_Level, NextLevelPoints,);
-		//UIPlayerHUD->SetLevelNumber(CurrentLevel);
-		AddScore(MyGameInstance->GetPlayerPoints());
+		UIPlayerHUD->SetLevel(Points, MAX_Level, NextLevelPoints,0);
+		UIPlayerHUD->SetLevelNumber(CurrentLevel);
+		//AddScore(MyGameInstance->GetPlayerPoints());
+		AddScore(0);
 	}
 
-	if (Health<100) RestoreHealthLevel();
-	if (MagicForce<100) RestoreMagicLevel();
+	//if (Health<100) RestoreHealthLevel();
+	//if (MagicForce<100) RestoreMagicLevel();
 	
 	// Bind Function Overlap Sword
 	SwordCollision->OnComponentBeginOverlap.AddDynamic(this, &AMyCharacterM::OnSwordOverlap);
