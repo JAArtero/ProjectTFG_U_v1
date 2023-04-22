@@ -3,14 +3,3 @@
 
 #include "ProjectTFG_U_v1/HUD/DeathUW.h"
 
-void UDeathUW::RebootGame()
-{
-
-	
-}
-
-void UDeathUW::EndCurrentGame()
-{
-
-	
-}

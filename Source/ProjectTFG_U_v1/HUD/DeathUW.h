@@ -13,19 +13,5 @@ UCLASS()
 class PROJECTTFG_U_V1_API UDeathUW : public UUserWidget
 {
 	GENERATED_BODY()
-
-public:
-
-	void RebootGame();
-
-	void EndCurrentGame();
-
-	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UButton* Button_Reboot;
-
-	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UButton* Button_Quit;
-
-
 	
 };
