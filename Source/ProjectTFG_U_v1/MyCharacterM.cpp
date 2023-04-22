@@ -94,7 +94,7 @@ void AMyCharacterM::BeginPlay()
 	KatanaInBack->SetVisibility(false);
 
 	//Restore values from Game Instant
-	Health=MyGameInstance->GetPlayerHealth();
+	/*Health=MyGameInstance->GetPlayerHealth();
 	MagicForce=MyGameInstance->GetPlayerMagicForce();
 	MAX_MAGICATTACK=MyGameInstance->GetPlayerMax_Magicattack();
 	MagicRest=MyGameInstance->GetPlayerMagicRest();
@@ -105,7 +105,7 @@ void AMyCharacterM::BeginPlay()
 	bMagicIsActive=MyGameInstance->GetPlayerMagicIsActive();
 	MAX_Level=MyGameInstance->GetPlayerMax_Level();
 	NextLevelPoints=MyGameInstance->GetPlayerNextLevelPoints();
-	
+	*/
 	//Stats
 	MagicRest=MagicForce/MAX_MAGICATTACK;
 	
@@ -124,8 +124,8 @@ void AMyCharacterM::BeginPlay()
 		AddScore(MyGameInstance->GetPlayerPoints());
 	}
 
-	if (Health<100) RestoreHealthLevel();
-	if (MagicForce<100) RestoreMagicLevel();
+	//if (Health<100) RestoreHealthLevel();
+	//if (MagicForce<100) RestoreMagicLevel();
 	
 	// Bind Function Overlap Sword
 	SwordCollision->OnComponentBeginOverlap.AddDynamic(this, &AMyCharacterM::OnSwordOverlap);
