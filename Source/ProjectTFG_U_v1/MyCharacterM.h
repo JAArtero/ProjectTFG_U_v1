@@ -275,6 +275,7 @@ public:
 	bool GetIsTumble() const {return bIsTumble;};
 	UFUNCTION(BlueprintCallable )bool GetIsDeathPlayer() const {return isDead;};
 	UFUNCTION(BlueprintCallable )bool GetHitEvent() const {return bHitEvent;};
+	UFUNCTION(BlueprintCallable)void AddToGameInstance();
 
 	// Active and deactive sword Box Collision
 	virtual void ActivateSwordBoxCollision();
@@ -282,9 +283,12 @@ public:
 	void ViewDeathMenu();
 
 	//Relations PickUp
-	FORCEINLINE bool SetActivateSword(bool ActiveSword);
-	FORCEINLINE bool SetActiveMagic(bool ActiveMagic);
-	FORCEINLINE bool  Heal( float amount);
+	FORCEINLINE bool SetActivateSwordPickUp(bool iSActive) {bSwordIsActive=iSActive; return SetActivateSword();};
+    bool SetActivateSword();//bool ActiveSword);
+	//FORCEINLINE
+	bool SetActiveMagic(bool ActiveMagic);
+	//FORCEINLINE
+	bool  Heal( float amount);
 	
 	virtual void NotifyHit(UPrimitiveComponent* MyComp, AActor* Other, UPrimitiveComponent* OtherComp, bool bSelfMoved,
 		FVector HitLocation, FVector HitNormal, FVector NormalImpulse, const FHitResult& Hit) override;

@@ -125,3 +125,13 @@ void UProjectGameInstance::SetPlayerNextLevelPoints(float NextLevelPoints)
 {
 	this->PlayerNextLevelPoints = NextLevelPoints;
 }
+
+bool UProjectGameInstance::GetIsPlaying() const
+{
+	return bIsPlaying;
+}
+
+void UProjectGameInstance::SetIsPlaying(bool bPlaying)
+{
+	this->bIsPlaying = bPlaying;
+}

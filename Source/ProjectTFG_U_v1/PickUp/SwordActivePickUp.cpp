@@ -8,5 +8,6 @@
 
 bool ASwordActivePickUp::ActivatePickUp()
 {
-	return CharacterM->SetActivateSword(true);
+	//return CharacterM->SetActivateSword(true);
+	return CharacterM->SetActivateSwordPickUp(true);
 }

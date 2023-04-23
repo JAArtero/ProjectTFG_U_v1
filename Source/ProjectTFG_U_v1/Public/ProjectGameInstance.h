@@ -16,22 +16,22 @@ class PROJECTTFG_U_V1_API UProjectGameInstance : public UGameInstance
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Stats, meta=(AllowPrivateAccess="true"))
-	float PlayerHealth {100.0f};
+	float PlayerHealth {0.0f};
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Stats, meta=(AllowPrivateAccess="true"))
-	float PlayerMagicForce {100.0f};
+	float PlayerMagicForce {0.0f};
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Stats, meta=(AllowPrivateAccess="true"))
-	float PlayerMAX_MAGICATTACK {4.0f};
+	float PlayerMAX_MAGICATTACK {0.0f};
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Stats, meta=(AllowPrivateAccess="true"))
 	float PlayerMagicRest {0.0f};
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Stats, meta=(AllowPrivateAccess="true"))
-	float PlayerMagicRestoreVelocity {1.0f};
+	float PlayerMagicRestoreVelocity {0.0f};
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Stats, meta=(AllowPrivateAccess="true"))
-	float PlayerHealthRestoreVelocity {1.0f};
+	float PlayerHealthRestoreVelocity {0.0f};
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Stats, meta=(AllowPrivateAccess="true"))
 	float PlayerPoints {0.0f};
@@ -46,12 +46,18 @@ class PROJECTTFG_U_V1_API UProjectGameInstance : public UGameInstance
 	bool PlayerbMagicIsActive{false};
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Stats, meta=(AllowPrivateAccess="true"))
-	float PlayerMAX_Level{100.0f};
+	float PlayerMAX_Level{0};//{100.0f};
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Stats, meta=(AllowPrivateAccess="true"))
-	float PlayerNextLevelPoints{100.0f};
+	float PlayerNextLevelPoints{0}; //{100.0f};
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Atack_Animation, meta=(AllowPrivateAccess="true"))
+	bool bIsPlaying{false};
 
 public:
+	bool GetIsPlaying() const;
+	void SetIsPlaying(bool bIsPlaying);
+
 	float GetPlayerNextLevelPoints() const;
 	void SetPlayerNextLevelPoints(float PlayerNextLevelPoints);
 
