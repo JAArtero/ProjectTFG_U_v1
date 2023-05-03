@@ -41,6 +41,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TSubclassOf<ARayProjectile>ProjectileType;
 
+	UFUNCTION()
 	void OnArmsOverlap(
 	   UPrimitiveComponent* OverlappedComponent,
 	   AActor* OtherActor,

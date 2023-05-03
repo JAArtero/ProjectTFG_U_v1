@@ -33,11 +33,13 @@ private:
 	//Add my movement objects functions declarations
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera, meta=(AllowPrivateAccess="true"))
 	class USpringArmComponent* CameraBoom;
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera, meta=(AllowPrivateAccess="true"))
 	class UCameraComponent* FollowCamera;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category=Weapon, meta=(AllowPrivateAccess="true"))
 	class USkeletalMeshComponent* KatanaInHand;
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category=Weapon, meta=(AllowPrivateAccess="true"))
 	class USkeletalMeshComponent* KatanaInBack;
 
@@ -79,46 +81,45 @@ private:
 	bool bIsTumble;
 
 	//Stats 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Stats, meta=(AllowPrivateAccess="true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Stats, meta=(AllowPrivateAccess="true"))
 	float Health {100.0f};
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Stats, meta=(AllowPrivateAccess="true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Stats, meta=(AllowPrivateAccess="true"))
 	float MAX_HEALTH {100.0f};
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Stats, meta=(AllowPrivateAccess="true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Stats, meta=(AllowPrivateAccess="true"))
 	float MagicForce {100.0f};
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Stats, meta=(AllowPrivateAccess="true"))
-	bool isDead {false};
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Stats, meta=(AllowPrivateAccess="true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Stats, meta=(AllowPrivateAccess="true"))
 	float MAX_MagicForce {100.0f};
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Stats, meta=(AllowPrivateAccess="true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Stats, meta=(AllowPrivateAccess="true"))
 	float MAX_MAGICATTACK {4.0f};
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Stats, meta=(AllowPrivateAccess="true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Stats, meta=(AllowPrivateAccess="true"))
 	float MagicRest {0.0f};
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Stats, meta=(AllowPrivateAccess="true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Stats, meta=(AllowPrivateAccess="true"))
 	float MagicRestoreVelocity {1.0f};
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Stats, meta=(AllowPrivateAccess="true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Stats, meta=(AllowPrivateAccess="true"))
 	float HealthRestoreVelocity {1.0f};
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Stats, meta=(AllowPrivateAccess="true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Stats, meta=(AllowPrivateAccess="true"))
 	float Points {0.0f};
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Stats, meta=(AllowPrivateAccess="true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Stats, meta=(AllowPrivateAccess="true"))
 	int CurrentLevel {0};
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Stats, meta=(AllowPrivateAccess="true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Stats, meta=(AllowPrivateAccess="true"))
 	float MAX_Level{100.0f};
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Stats, meta=(AllowPrivateAccess="true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Stats, meta=(AllowPrivateAccess="true"))
 	float NextLevelPoints{100.0f};
 
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Stats, meta=(AllowPrivateAccess="true"))
+	bool isDead {false};
+	
     
 	
 	//Camera Shake
@@ -157,10 +158,10 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Atack_Animation, meta=(AllowPrivateAccess="true"))
 	float BaseMagicDamage {10};
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Atack_Animation, meta=(AllowPrivateAccess="true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Atack_Animation, meta=(AllowPrivateAccess="true"))
 	bool bSwordIsActive{false};
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Atack_Animation, meta=(AllowPrivateAccess="true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Atack_Animation, meta=(AllowPrivateAccess="true"))
 	bool bMagicIsActive{false};
 	
 	
@@ -205,7 +206,12 @@ protected:
     void DisableMovement();
 	void EnableMovement();
 
-
+	//Control Stats 
+	void UpdateHealtBarHUD(float LiveValue);
+	void UpdateMagicForceBarHUD();
+	void RestoreMagicLevel();
+	void RestoreHealthLevel();
+	void UpdateLevelHUD(int Level, float PercentNumber, float NextLevelPoints);
 	
 	//Magic Particles
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
@@ -249,14 +255,7 @@ private:
 	void CreateFireParticules(FString SocketName);
 	void FireLineCast(FName SocketName);
 
-	//Control Stats 
-	void UpdateHealtBarHUD(float LiveValue);
-	void UpdateMagicForceBarHUD();
-	void RestoreMagicLevel();
-	void RestoreHealthLevel();
-	void UpdateLevelHUD(int Level, float PercentNumber, float NextLevelPoints);
-
-	
+		
 	FTimerHandle TimerMovement;
 	UCharacterMovementComponent* MoveCompRef = nullptr;
 
@@ -275,7 +274,7 @@ public:
 	bool GetIsTumble() const {return bIsTumble;};
 	UFUNCTION(BlueprintCallable )bool GetIsDeathPlayer() const {return isDead;};
 	UFUNCTION(BlueprintCallable )bool GetHitEvent() const {return bHitEvent;};
-	UFUNCTION(BlueprintCallable)void AddToGameInstance();
+	UFUNCTION(BlueprintCallable) void RestoreFromGameInstance();
 
 	// Active and deactive sword Box Collision
 	virtual void ActivateSwordBoxCollision();
@@ -283,12 +282,14 @@ public:
 	void ViewDeathMenu();
 
 	//Relations PickUp
-	FORCEINLINE bool SetActivateSwordPickUp(bool iSActive) {bSwordIsActive=iSActive; return SetActivateSword();};
+	bool SetActivateSwordPickUp(bool iSActive);  // {MyGameInstance->PlayerbSwordIsActive=iSActive; return SetActivateSword();};
     bool SetActivateSword();//bool ActiveSword);
 	//FORCEINLINE
-	bool SetActiveMagic(bool ActiveMagic);
+	bool SetActiveMagic();//bool ActiveMagic);
 	//FORCEINLINE
 	bool  Heal( float amount);
+
+	
 	
 	virtual void NotifyHit(UPrimitiveComponent* MyComp, AActor* Other, UPrimitiveComponent* OtherComp, bool bSelfMoved,
 		FVector HitLocation, FVector HitNormal, FVector NormalImpulse, const FHitResult& Hit) override;

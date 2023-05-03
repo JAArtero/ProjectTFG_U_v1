@@ -7,6 +7,6 @@
 
 bool AMagicActivatePickUp::ActivatePickUp()
 {
-	return CharacterM->SetActiveMagic(true);
+	return CharacterM->SetActiveMagic();//true);
 
 }

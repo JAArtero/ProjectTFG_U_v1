@@ -33,7 +33,6 @@ BaseTurnRate(45.f), BaseLookUpRate(45.f) //Declaration
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	
 	//My Camera 
 	CameraBoom=CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
@@ -80,10 +79,10 @@ BaseTurnRate(45.f), BaseLookUpRate(45.f) //Declaration
 	UIPlayerHUD=nullptr;
 	
     //Stats
-	//MagicRest=nullptrMagicForce/MAX_MAGICATTACK;
+	MagicRest=MagicForce/MAX_MAGICATTACK;
 
-	MyGameInstance = Cast<UProjectGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	
+	MyGameInstance = Cast<UProjectGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 }
 
 // Called when the game starts or when spawned
@@ -92,10 +91,7 @@ void AMyCharacterM::BeginPlay()
 	Super::BeginPlay();
 
 	KatanaInBack->SetVisibility(false);
-
 	
-	//Stats
-	MagicRest=MagicForce/MAX_MAGICATTACK;
 	
 	//HUD Layer
 	if(IsLocallyControlled() && PlayerHUDClass) // && !isDead)
@@ -104,6 +100,7 @@ void AMyCharacterM::BeginPlay()
 		check(FPC);
 		UIPlayerHUD=CreateWidget<UMyHUDWidget>(FPC, PlayerHUDClass);
 		check(UIPlayerHUD);
+		
 		UIPlayerHUD->AddToPlayerScreen();
 		UIPlayerHUD->SetHealth(Health, MAX_HEALTH);
 		UIPlayerHUD->SetMagic(MagicForce,MAX_MagicForce);
@@ -111,6 +108,7 @@ void AMyCharacterM::BeginPlay()
 		UIPlayerHUD->SetLevelNumber(CurrentLevel);
 		AddScore(0);
 	}
+
 	// Bind Function Overlap Sword
 	SwordCollision->OnComponentBeginOverlap.AddDynamic(this, &AMyCharacterM::OnSwordOverlap);
 	
@@ -126,27 +124,7 @@ void AMyCharacterM::BeginPlay()
 	{
 		MyGameMode->AddScore.BindUObject(this, &AMyCharacterM::AddScore);
 	}
-	/*
-	if(MyGameInstance->GetIsPlaying())
-	{
-	//Restore values from Game Instant
-	Health=MyGameInstance->GetPlayerHealth();
-	MagicForce=MyGameInstance->GetPlayerMagicForce();
-	MAX_MAGICATTACK=MyGameInstance->GetPlayerMax_Magicattack();
-	MagicRest=MyGameInstance->GetPlayerMagicRest();
-	//MagicRestoreVelocity=MyGameInstance->GetPlayerMagicRestoreVelocity();
-	//HealthRestoreVelocity=MyGameInstance->GetPlayerHealthRestoreVelocity();
-	CurrentLevel=MyGameInstance->GetPlayerCurrentLevel();
-	bSwordIsActive=MyGameInstance->GetPlayerSwordIsActive();
-	bMagicIsActive=MyGameInstance->GetPlayerMagicIsActive();
-	MAX_Level=MyGameInstance->GetPlayerMax_Level();
-	NextLevelPoints=MyGameInstance->GetPlayerNextLevelPoints();
-	AddScore(MyGameInstance->GetPlayerPoints());
-	if (Health<100) RestoreHealthLevel();
-	if (MagicForce<100) RestoreMagicLevel();
-	}*/
-
-	MyGameInstance->SetIsPlaying(true); 
+	
 	
 }
 
@@ -449,7 +427,7 @@ void AMyCharacterM::ViewDeathMenu()
 	{
 		UDeathUW* DeathWidget=CreateWidget<UDeathUW>(GetWorld(), DeathMenuClass);
 		if(DeathWidget!=nullptr)
-		{	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red,FString::Printf(TEXT("Menu add")));
+		{	//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red,FString::Printf(TEXT("Menu add")));
 
 			APlayerController* FPC=GetController<APlayerController>();
 			UGameplayStatics::PlaySound2D(this, SC_Open_Dialog);
@@ -461,10 +439,16 @@ void AMyCharacterM::ViewDeathMenu()
 	}
 }
 
+bool AMyCharacterM::SetActivateSwordPickUp(bool iSActive)
+{
+	bSwordIsActive=iSActive;
+	return SetActivateSword();
+}
+
 bool AMyCharacterM::SetActivateSword()//bool ActiveSword)
 {
-	//bSwordIsActive=ActiveSword;
-	//MyGameInstance->SetPlayerSwordIsActive(true);
+	bSwordIsActive=true; //ActiveSword;
+	
 	UGameplayStatics::PlaySound2D(this, SC_Change_Weapon_Sound);
 	UIPlayerHUD->SetSwordAvailable(1);
 	KatanaInBack->SetVisibility(true);
@@ -472,10 +456,9 @@ bool AMyCharacterM::SetActivateSword()//bool ActiveSword)
 	
 }
 
-bool AMyCharacterM::SetActiveMagic(bool ActiveMagic)
+bool AMyCharacterM::SetActiveMagic()//bool ActiveMagic)
 {
-	bMagicIsActive=ActiveMagic;
-	//MyGameInstance->SetPlayerMagicIsActive(ActiveMagic);
+	bMagicIsActive=true; //ActiveMagic;
 	UGameplayStatics::PlaySound2D(this, SC_Change_Weapon_Sound);
 	UIPlayerHUD->SetMagicAvailable(1);
 	return true;
@@ -603,8 +586,8 @@ float AMyCharacterM::TakeDamage(float DamageAmount, FDamageEvent const& DamageEv
 	if(!isDead)
 	{
 		Health=FMath::Clamp(Health-DamageAmount,0.0f, MAX_HEALTH);
-		//MyGameInstance->SetPlayerHealth(Health);
 		UpdateHealtBarHUD(Health);
+	
 		if(Health<=0 || isDead)
 		{
 			UIPlayerHUD->RemoveFromParent();
@@ -659,9 +642,7 @@ void AMyCharacterM::CreateFireParticules(FString SocketName)
 bool AMyCharacterM::Heal( float amount)
 {
 	if(Health>=MAX_HEALTH){return false;}
-
 	Health=FMath::Clamp(Health+amount, 0.0f, MAX_HEALTH);
-	//MyGameInstance->SetPlayerHealth(Health);
 	
 	if(!isDead)
 	{
@@ -675,6 +656,7 @@ void AMyCharacterM::UpdateMagicForceBarHUD()
 {
 	if(!isDead)
 	{
+	
 		UIPlayerHUD->SetMagic(MagicForce, MAX_MagicForce);
 	}
 }
@@ -684,6 +666,7 @@ void AMyCharacterM::UpdateHealtBarHUD(float LiveValue)
 	if(!isDead)
 	{
 		UIPlayerHUD->SetHealth(LiveValue, MAX_HEALTH);
+	
 	}
 }
 void AMyCharacterM::UpdateLevelHUD(int Level, float PercentNumber, float NextLPoints)
@@ -704,20 +687,17 @@ void AMyCharacterM::EndPlay(const EEndPlayReason::Type EndPlayReason)
 void AMyCharacterM::AddScore(float score)
 {
 	Points+=score;
-	//MyGameInstance->SetPlayerPoints(Points);
-   	
+	   	
 //update level based on current score
 	if(Points>=0 && Points<100)
 	{//Level 1
 		UpdateLevelHUD(0,Points,100);
-		MyGameInstance->SetPlayerCurrentLevel(0);
-		MyGameInstance->SetPlayerNextLevelPoints(100);
 	}
+	
 	if(Points>=100 && Points<200)
 	{//Level 2
 		UpdateLevelHUD(1,Points-100,200);
-		MyGameInstance->SetPlayerCurrentLevel(1);
-		MyGameInstance->SetPlayerNextLevelPoints(200);
+		
 
 	}
 	if(Points>=200 && Points<300)
@@ -725,33 +705,23 @@ void AMyCharacterM::AddScore(float score)
 		UpdateLevelHUD(2,Points-200,300);
 		MagicRestoreVelocity=0.8f;
 		HealthRestoreVelocity=0.8f;
-		MyGameInstance->SetPlayerCurrentLevel(2);
-		MyGameInstance->SetPlayerNextLevelPoints(300);
-		MyGameInstance->SetPlayerMagicRestoreVelocity(0.8);
-		MyGameInstance->SetPlayerHealthRestoreVelocity(0.8);
+		
 	}
 	if(Points>=300 && Points<400)
 	{//Level4
 		UpdateLevelHUD(3,Points-300,400);
-		MyGameInstance->SetPlayerCurrentLevel(3);
-		MyGameInstance->SetPlayerNextLevelPoints(400);
-
+		
 	}
 	if(Points>=400 && Points<=500)
 	{//Level 5
 		UpdateLevelHUD(4,Points-100,500);
 		MagicRestoreVelocity=0.6f;
-		MyGameInstance->SetPlayerCurrentLevel(4);
-		MyGameInstance->SetPlayerNextLevelPoints(500);
-		MyGameInstance->SetPlayerMagicRestoreVelocity(0.6);
+	
 	}
 	if(Points>=500)
 	{
+		HealthRestoreVelocity=0.5f;
 		MagicRestoreVelocity=0.5f;
-		HealthRestoreVelocity=0.6f;
-		MyGameInstance->SetPlayerCurrentLevel(5);
-		MyGameInstance->SetPlayerNextLevelPoints(500);
-		MyGameInstance->SetPlayerHealthRestoreVelocity(0.6);
 	}
 	
 }
@@ -759,15 +729,20 @@ void AMyCharacterM::AddScore(float score)
 //Restores Magic at the rate specified by MagicRestoreVelocity
 void AMyCharacterM::RestoreMagicLevel()
 {
+	//float tmpMagicVelocity=MyGameInstance->PlayerMagicRestoreVelocity;
 	if(!isDead)
 	{
-		FTimerHandle TimerHandle;
-		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&]()
+		//float tmpMagicRestoreValue=MyGameInstance->PlayerMagicForce;
+		//FTimerHandle TimerHandle;
+		GetWorld()->GetTimerManager().SetTimer(MyGameInstance->TimerMagicGI, [&]()
 		{
 			MagicForce=FMath::Clamp(MagicForce+0.1f,0.0, MAX_MagicForce);
-			//MyGameInstance->SetPlayerMagicForce(MagicForce);
+			//tmpMagicRestoreValue=FMath::Clamp(tmpMagicRestoreValue+0.1,0.0, MyGameInstance->PlayerMaxMagicForce);
+			//MyGameInstance->PlayerMagicForce=FMath::Clamp(MyGameInstance->PlayerMagicForce+0.1f,0.0, MyGameInstance->PlayerMaxMagicForce);
+			//MyGameInstance->SetPlayerMagicForce(tmpMagicRestoreValue);
 			UpdateMagicForceBarHUD();
 			 if(MagicForce==MAX_MagicForce){return;};
+			//if(MyGameInstance->PlayerMagicForce==MyGameInstance->PlayerMaxMagicForce){return;};
 		}, MagicRestoreVelocity, true);
 	}
 }
@@ -775,27 +750,43 @@ void AMyCharacterM::RestoreMagicLevel()
 //restores health at the rate specified by HealtRestoreVelocity
 void AMyCharacterM::RestoreHealthLevel()
 {
+	//float tmpHealthVelocity=MyGameInstance->PlayerHealthRestoreVelocity;
+	//float tmp=0;
 	if(!isDead)
 	{
-		FTimerHandle TimerHandle;
-		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&]()
+		//float tmpHealthRestoreValue=MyGameInstance->PlayerHealth;
+		//FTimerHandle TimerHandle;
+		GetWorld()->GetTimerManager().SetTimer(MyGameInstance->TimerMovementGI, [&]()
 		{
-			//Health=Health+0.1f;
-			Health=FMath::Clamp(Health+0.1f,0.0,MAX_HEALTH);
-			//MyGameInstance->SetPlayerHealth(Health);
+			Health=Health+0.1;
+			//tmpHealthRestoreValue=FMath::Clamp(tmpHealthRestoreValue+0.1f,0.0,MyGameInstance->PlayerMaxHealth);
+			//MyGameInstance->SetPlayerHealth(tmpHealthRestoreValue);
 			UpdateHealtBarHUD(Health);
 			if(Health==MAX_HEALTH){return;};
+			//if(MyGameInstance->PlayerHealth>=MyGameInstance->PlayerMaxHealth){return;};
 		}, HealthRestoreVelocity, true);
+		
 	}
 }
 
-void AMyCharacterM::AddToGameInstance()
-{
-	MyGameInstance->SetPlayerSwordIsActive(bSwordIsActive);
-	MyGameInstance->SetPlayerMagicIsActive(bMagicIsActive);
-	MyGameInstance->SetPlayerHealth(Health);
-	MyGameInstance->SetPlayerPoints(Points);
-	MyGameInstance->SetPlayerMagicForce(MagicForce);
 
+void AMyCharacterM::RestoreFromGameInstance()
+{
+	UIPlayerHUD->SetHealth(Health, MAX_HEALTH);
+	UIPlayerHUD->SetMagic(MagicForce,MAX_MagicForce);
+	//UIPlayerHUD->SetLevel(Points, MyGameInstance->PlayerMAX_Level, MyGameInstance->PlayerNextLevelPoints,0);
+	//UIPlayerHUD->SetLevelNumber(MyGameInstance->PlayerCurrentLevel);
+	//AddScore(Points);
+	if(bSwordIsActive)
+	{
+		UIPlayerHUD->SetSwordAvailable(1);
+		KatanaInBack->SetVisibility(true);
+	}
+	if(bMagicIsActive) UIPlayerHUD->SetMagicAvailable(1);
+    if (Health<100) RestoreHealthLevel();
+    if (MagicForce<100) RestoreMagicLevel();
+
+	
 }
+
 

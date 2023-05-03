@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+//Trabajo de Fin de Grado de la UOC de Jose Atonio Artero Férnandez
 
 #pragma once
 
@@ -6,69 +6,98 @@
 #include "Engine/GameInstance.h"
 #include "ProjectGameInstance.generated.h"
 
-/**
- * 
- */
+
 UCLASS()
 class PROJECTTFG_U_V1_API UProjectGameInstance : public UGameInstance
 {
 	GENERATED_BODY()
 
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Stats, meta=(AllowPrivateAccess="true"))
-	float PlayerHealth {0.0f};
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Stats, meta=(AllowPrivateAccess="true"))
-	float PlayerMagicForce {0.0f};
+public:
+	UProjectGameInstance();
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Stats, meta=(AllowPrivateAccess="true"))
-	float PlayerMAX_MAGICATTACK {0.0f};
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Stats, meta=(AllowPrivateAccess="true"))
-	float PlayerMagicRest {0.0f};
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Stats, meta=(AllowPrivateAccess="true"))
-	float PlayerMagicRestoreVelocity {0.0f};
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Stats, meta=(AllowPrivateAccess="true"))
-	float PlayerHealthRestoreVelocity {0.0f};
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Stats, meta=(AllowPrivateAccess="true"))
-	float PlayerPoints {0.0f};
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Stats, meta=(AllowPrivateAccess="true"))
-	int PlayerCurrentLevel {0};
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Stats, meta=(AllowPrivateAccess="true"))
-	bool PlayerbSwordIsActive{false};
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Atack_Animation, meta=(AllowPrivateAccess="true"))
-	bool PlayerbMagicIsActive{false};
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Stats, meta=(AllowPrivateAccess="true"))
-	float PlayerMAX_Level{0};//{100.0f};
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Stats, meta=(AllowPrivateAccess="true"))
-	float PlayerNextLevelPoints{0}; //{100.0f};
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Atack_Animation, meta=(AllowPrivateAccess="true"))
-	bool bIsPlaying{false};
+protected:
+	virtual void Init() override;
 
 public:
-	bool GetIsPlaying() const;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Stats)  
+	float PlayerHealth;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Stats)
+	float PlayerMaxHealth;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,  Category=Stats)
+	float PlayerMagicForce;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,  Category=Stats)
+	float PlayerMaxMagicForce;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,  Category=Stats)
+	float PlayerMAX_MAGICATTACK;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,  Category=Stats)
+	float PlayerMagicRest;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,  Category=Stats)
+	float PlayerMagicRestoreVelocity;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Stats)
+	float PlayerHealthRestoreVelocity;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Stats)
+	float PlayerPoints;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Stats)
+	int PlayerCurrentLevel;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Stats)
+	float PlayerMAX_Level;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Stats)
+	float PlayerNextLevelPoints;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Stats)
+	bool PlayerbSwordIsActive;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Atack_Animation)
+	bool PlayerbMagicIsActive;
+
+	
+
+
+public:
+	void PlayerRestoreHealth(float Health, float Max_Health, float velocity);
+	void PlayerRestoreMagic();
+
+	//Timer for restore levels 
+	FTimerHandle TimerMovementGI;
+	FTimerHandle TimerMagicGI;
+
+	
+	//Getters and Setters
+	
+	bool GetIsPlaying();
 	void SetIsPlaying(bool bIsPlaying);
 
-	float GetPlayerNextLevelPoints() const;
+	float GetPlayerNextLevelPoints();
 	void SetPlayerNextLevelPoints(float PlayerNextLevelPoints);
 
-	float GetPlayerMax_Level() const;
+	float GetPlayerMax_Level();
 	void SetPlayerMax_Level(float PlayerMax_Level);
 
 	float GetPlayerHealth();
 	void SetPlayerHealth(float PlayerHealth);
+
+	float GetPlayerMaxHealth() ;
+	void SetPlayerMaxHealth(float PlayerHealth);
 	
 	float GetPlayerMagicForce();
 	void SetPlayerMagicForce(float MagicForce);
+
+	float GetPlayerMaxMagicForce();
+	void SetPlayerMaxMagicForce(float MaxMagicForce);
 	
 	float GetPlayerMax_Magicattack();
 	void SetPlayerMax_Magicattack(float Max_Magicattack);
@@ -88,12 +117,10 @@ public:
 	int GetPlayerCurrentLevel() ;
 	void SetPlayerCurrentLevel(int CurrentLevel);
 	
-	bool GetPlayerSwordIsActive() const;
+	bool GetPlayerSwordIsActive() ;
 	void SetPlayerSwordIsActive(bool bSwordIsActive);
 	
-	bool GetPlayerMagicIsActive() const;
+	bool GetPlayerMagicIsActive() ;
 	void SetPlayerMagicIsActive(bool bMagicIsActive);
-
-	
 	
 };
