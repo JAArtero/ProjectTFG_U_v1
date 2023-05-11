@@ -3,8 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ProjectTFG_U_v1/ProjectTFG_U_v1GameModeBase.h"
 #include "ProjectTFG_U_v1/PickUp/PickUpBase.h"
 #include "SwordActivePickUp.generated.h"
+
 
 /**
  * 
@@ -22,4 +24,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category=Stats)
 	bool SwordActive {true};
 	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Gameplay")
+	AProjectTFG_U_v1GameModeBase* GameModeInstance;
 };

@@ -452,6 +452,7 @@ bool AMyCharacterM::SetActivateSword()//bool ActiveSword)
 	UGameplayStatics::PlaySound2D(this, SC_Change_Weapon_Sound);
 	UIPlayerHUD->SetSwordAvailable(1);
 	KatanaInBack->SetVisibility(true);
+	AddScore(100);
 	return true;
 	
 }
@@ -461,6 +462,7 @@ bool AMyCharacterM::SetActiveMagic()//bool ActiveMagic)
 	bMagicIsActive=true; //ActiveMagic;
 	UGameplayStatics::PlaySound2D(this, SC_Change_Weapon_Sound);
 	UIPlayerHUD->SetMagicAvailable(1);
+	AddScore(100);
 	return true;
 
 	
@@ -774,9 +776,6 @@ void AMyCharacterM::RestoreFromGameInstance()
 {
 	UIPlayerHUD->SetHealth(Health, MAX_HEALTH);
 	UIPlayerHUD->SetMagic(MagicForce,MAX_MagicForce);
-	//UIPlayerHUD->SetLevel(Points, MyGameInstance->PlayerMAX_Level, MyGameInstance->PlayerNextLevelPoints,0);
-	//UIPlayerHUD->SetLevelNumber(MyGameInstance->PlayerCurrentLevel);
-	//AddScore(Points);
 	if(bSwordIsActive)
 	{
 		UIPlayerHUD->SetSwordAvailable(1);
@@ -785,6 +784,7 @@ void AMyCharacterM::RestoreFromGameInstance()
 	if(bMagicIsActive) UIPlayerHUD->SetMagicAvailable(1);
     if (Health<100) RestoreHealthLevel();
     if (MagicForce<100) RestoreMagicLevel();
+	AddScore(0);
 
 	
 }

@@ -26,7 +26,13 @@ AProjectTFG_U_v1GameModeBase::AProjectTFG_U_v1GameModeBase()
 	
 }
 
+void AProjectTFG_U_v1GameModeBase::BeginPlay()
+{
+	Super::BeginPlay();
 
+	//Particules impact system
+	//ImpactFX=CreateImpactFX(BPImpactFX);
+}
 //Create Timer to restart game 
 void AProjectTFG_U_v1GameModeBase::RestartGameTimer()
 {
@@ -35,6 +41,34 @@ void AProjectTFG_U_v1GameModeBase::RestartGameTimer()
 	GetWorldTimerManager().SetTimer(RestartGame_TimerHandle, restartDelegate, 3.0f, false );
 }
 
+int AProjectTFG_U_v1GameModeBase::selecIndexTalk()
+{
+
+	if(!initTalk)
+	{
+		SetInitTalk(true);
+		return 0;
+	};
+	if(!SwordMissionComplete && !SwordMissionMessage && initTalk)
+	{
+		SetSwordMissionMessage(true);
+		return 1;
+	};
+	if(!MagicMissionComplete && !MagicMissionMessage && SwordMissionComplete && initTalk)
+	{
+		SetMagicMissionMessage(true);
+		return 2;
+	};
+	if(!RuinMissionComplete &&!RuinMissionMessage && MagicMissionComplete && SwordMissionComplete && initTalk)
+	{
+		SetRuinMissionMessage(true);
+		return 3;
+	};
+
+	return FMath::RandRange( 4,  7);
+
+	//return 4;
+}
 
 
 //End of the current game and restart
@@ -44,16 +78,63 @@ void AProjectTFG_U_v1GameModeBase::OnRestartGame()
 	UGameplayStatics::OpenLevel(GetWorld(),    FName("Level1")); //    FName(GetWorld()->GetFName()));//    FName("Level1"))
 }
 
-
-
-void AProjectTFG_U_v1GameModeBase::BeginPlay()
+//Setters
+void AProjectTFG_U_v1GameModeBase::SetSwordMissionMessage(const bool bSwordMissionMessage)
 {
-	Super::BeginPlay();
-
-
-	//Particules impact system
-	//ImpactFX=CreateImpactFX(BPImpactFX);
-	
-	
+	SwordMissionMessage = bSwordMissionMessage;
 }
+
+void AProjectTFG_U_v1GameModeBase::SetMagicMissionMessage(const bool bMagicMissionMessage)
+{
+	MagicMissionMessage = bMagicMissionMessage;
+}
+
+void AProjectTFG_U_v1GameModeBase::SetRuinMissionMessage(const bool bRuinMissionMessage)
+{
+	RuinMissionMessage = bRuinMissionMessage;
+}
+
+//Getters
+bool AProjectTFG_U_v1GameModeBase::GetInitTalk() const
+{
+	return initTalk;
+}
+
+bool AProjectTFG_U_v1GameModeBase::GetSwordMissionCompleteFuction() const
+{
+	return SwordMissionComplete;
+}
+
+bool AProjectTFG_U_v1GameModeBase::GetMagicMissionCompleteFuction() const
+{
+	return MagicMissionComplete;
+}
+
+bool AProjectTFG_U_v1GameModeBase::GetRuinMissionCompleteFuction() const
+{
+	return RuinMissionComplete;
+}
+
+
+//Setters
+void AProjectTFG_U_v1GameModeBase::SetInitTalk(const bool bInitTalk)
+{
+	initTalk = bInitTalk;
+}
+
+void AProjectTFG_U_v1GameModeBase::SetSwordMissionComplete(const bool bIsComplete)
+{
+	SwordMissionComplete = bIsComplete;
+}
+
+void AProjectTFG_U_v1GameModeBase::SetMagicMissionComplete(const bool bIsComplete)
+{
+	MagicMissionComplete = bIsComplete;
+}
+
+void AProjectTFG_U_v1GameModeBase::SetRuinMissionComplete(const bool bIsComplete)
+{
+	RuinMissionComplete = bIsComplete;
+}
+
 

@@ -7,6 +7,9 @@
 
 bool AMagicActivatePickUp::ActivatePickUp()
 {
+	GameModeInstance = Cast<AProjectTFG_U_v1GameModeBase>(GetWorld()->GetAuthGameMode()); //you can just use GetWorld()->GetAuthGameMode();
+
+	GameModeInstance->SetMagicMissionComplete(true);
 	return CharacterM->SetActiveMagic();//true);
 
 }
