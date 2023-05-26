@@ -550,6 +550,7 @@ void AMyCharacterM::FireLineCast(FName SocketName)
 	{
 		const FTransform Fire_SocketTransform=Fire_Socket->GetSocketTransform(GetMesh());
 		const ARayProjectile* SpawnProjectile= GetWorld()->SpawnActor<ARayProjectile>(ProjectileType, RayProjectile->GetComponentTransform(), SpawnParameters);
+		USphereComponent* CollisionSphere= Cast<USphereComponent>(SpawnProjectile->GetRootComponent());//************
 
 		//Ray Light projectile
 		FVector ForwardVector = GetActorForwardVector();
@@ -563,12 +564,15 @@ void AMyCharacterM::FireLineCast(FName SocketName)
 		const FVector RotationFireAxis=RotationFire.GetAxisX();
 		const FVector EndFire=(StartFire+RotationFireAxis*10000.f);
 		GetWorld()->LineTraceSingleByChannel(FireHit, StartFire, EndFire, ECC_Visibility); //Calculate direction
-		//DrawDebugLine(GetWorld(), StartFire, EndFire, FColor::Blue, false, 0.3f);
-			
+		DrawDebugLine(GetWorld(), StartFire, EndFire, FColor::Blue, false, 0.3f); //Draw Line direction
+
+		CollisionSphere->AddImpulse(ForwardVector,NAME_None, true );
+
+		
 		if(FireHit.bBlockingHit && ImpactParticles)//Detecta si existe colisión para dibujar trayectoria e impacto, o no dibuja nada OJO
 		{
-			//DrawDebugPoint(GetWorld(),FireHit.ImpactPoint, 60, FColor:: Red, false, 2.f);
-			Collision->AddImpulse(ForwardVector,NAME_None, true );
+			DrawDebugPoint(GetWorld(),FireHit.ImpactPoint, 60, FColor:: Red, false, 2.f);
+			//Collision->AddImpulse(ForwardVector,NAME_None, true );
 			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(),ImpactParticles,FireHit.ImpactPoint);
 			auto actor=FireHit.GetActor();
 			auto owner=GetOwner();

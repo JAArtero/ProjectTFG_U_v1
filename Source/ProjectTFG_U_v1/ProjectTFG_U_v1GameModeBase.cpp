@@ -67,7 +67,7 @@ int AProjectTFG_U_v1GameModeBase::selecIndexTalk()
 
 	return FMath::RandRange( 4,  7);
 
-	//return 4;
+	
 }
 
 

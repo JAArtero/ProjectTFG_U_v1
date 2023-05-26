@@ -103,6 +103,7 @@ float UHealthComponent::TakeDamage(float DamageAmount, FDamageEvent const& Damag
 	if(ActualLife-DamageAmount<=0.f)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red,FString::Printf(TEXT(" Muerto Muerto")));
+		bDie=true;
 	}
 	else
 	{  

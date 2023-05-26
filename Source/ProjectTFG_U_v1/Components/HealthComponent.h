@@ -67,6 +67,5 @@ private:
 	UPROPERTY(EditDefaultsOnly,Category=Stats, meta=(AllowPrivateAccess="true"))
 	float MAX_LIFE {100.0f};
 
-	//UFUNCTION()
-	//void AddScore(float points);
+	
 };
