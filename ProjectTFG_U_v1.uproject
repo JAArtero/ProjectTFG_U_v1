@@ -50,10 +50,6 @@
 			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/ea38ae1f87b24807a66fdf4fa65ef521"
 		},
 		{
-			"Name": "PixelStreaming",
-			"Enabled": true
-		},
-		{
 			"Name": "AsyncLoadingScreen",
 			"Enabled": true,
 			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/01f39767dc6b4290877f38365787cbf8"

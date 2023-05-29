@@ -564,14 +564,14 @@ void AMyCharacterM::FireLineCast(FName SocketName)
 		const FVector RotationFireAxis=RotationFire.GetAxisX();
 		const FVector EndFire=(StartFire+RotationFireAxis*10000.f);
 		GetWorld()->LineTraceSingleByChannel(FireHit, StartFire, EndFire, ECC_Visibility); //Calculate direction
-		DrawDebugLine(GetWorld(), StartFire, EndFire, FColor::Blue, false, 0.3f); //Draw Line direction
+		//DrawDebugLine(GetWorld(), StartFire, EndFire, FColor::Blue, true, 1.3f); //Draw Line direction
 
 		CollisionSphere->AddImpulse(ForwardVector,NAME_None, true );
 
 		
 		if(FireHit.bBlockingHit && ImpactParticles)//Detecta si existe colisión para dibujar trayectoria e impacto, o no dibuja nada OJO
 		{
-			DrawDebugPoint(GetWorld(),FireHit.ImpactPoint, 60, FColor:: Red, false, 2.f);
+			//DrawDebugPoint(GetWorld(),FireHit.ImpactPoint, 100, FColor:: Red, false, 4.f);
 			//Collision->AddImpulse(ForwardVector,NAME_None, true );
 			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(),ImpactParticles,FireHit.ImpactPoint);
 			auto actor=FireHit.GetActor();
