@@ -1,0 +1,10 @@
+diff a/Config/DefaultEngine.ini b/Config/DefaultEngine.ini	(rejected hunks)
+@@ -4,7 +4,7 @@
+ GameDefaultMap=/Game/ThirdPerson/Levels/MainMenu.MainMenu
+ 
+ 
+-EditorStartupMap=/Game/ThirdPerson/Levels/IslandLevelM.IslandLevelM
++EditorStartupMap=/Game/ThirdPerson/Levels/MainMenu.MainMenu
+ GlobalDefaultGameMode=/Game/ThirdPerson/Blueprints/bpProjectGameMode.bpProjectGameMode_C
+ GameInstanceClass=/Game/ThirdPerson/Blueprints/BPProjectGameInstance.BPProjectGameInstance_C
+ 

@@ -1,0 +1,10 @@
+diff a/ProjectTFG_U_v1.uproject b/ProjectTFG_U_v1.uproject	(rejected hunks)
+@@ -51,7 +51,7 @@
+ 		},
+ 		{
+ 			"Name": "PixelStreaming",
+-			"Enabled": true
++			"Enabled": false
+ 		},
+ 		{
+ 			"Name": "AsyncLoadingScreen",
