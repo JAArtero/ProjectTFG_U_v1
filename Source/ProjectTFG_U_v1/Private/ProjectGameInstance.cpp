@@ -33,6 +33,15 @@ void UProjectGameInstance::Init()
 	
 }
 
+void UProjectGameInstance::DeathMenu()
+{
+
+	
+}
+
+
+
+
 //Getters and Setters
 
 float UProjectGameInstance::GetPlayerHealth() 
@@ -166,6 +175,7 @@ void UProjectGameInstance::SetPlayerMax_Level(float Max_Level)
 {
 	this->PlayerMAX_Level = Max_Level;
 }
+
 
 float UProjectGameInstance::GetPlayerNextLevelPoints() 
 {

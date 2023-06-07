@@ -61,19 +61,29 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Stats)
 	bool PlayerbSwordIsActive;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Atack_Animation)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=stats)
 	bool PlayerbMagicIsActive;
 
 	
 
 
 public:
-	void PlayerRestoreHealth(float Health, float Max_Health, float velocity);
-	void PlayerRestoreMagic();
+	//void PlayerRestoreHealth(float Health, float Max_Health, float velocity);
+	//void PlayerRestoreMagic();
+	void DeathMenu();
 
-	//Timer for restore levels 
+	//Timer for restore levels
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=stats)
 	FTimerHandle TimerMovementGI;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=stats)
 	FTimerHandle TimerMagicGI;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=stats)
+	FTimerHandle TimerRestoreHealthGI;
+	FTimerHandle TimerHandle1;
+	FTimerHandle TimerHandle2;
+	FTimerHandle TimerHandle3;
+	FTimerHandle TimerHandle4;
+	FTimerHandle TimerHandle5;
 
 	
 	//Getters and Setters

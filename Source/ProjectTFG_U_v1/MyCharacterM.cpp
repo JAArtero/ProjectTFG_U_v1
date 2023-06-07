@@ -249,8 +249,8 @@ void AMyCharacterM::Fire()
 		SectionLength=PlayMyAnimation(Attack_Animation_Montage,1.0f, SocketPlay,0.0f,true);
 
 		//Delay to fire
-		FTimerHandle TimerHandle;
-		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&]()
+		//FTimerHandle TimerHandle1;
+		GetWorld()->GetTimerManager().SetTimer(MyGameInstance->TimerHandle1, [&]()
 		{
 			if(MyCameraShake)
 			{
@@ -278,8 +278,8 @@ void AMyCharacterM::HardFire()
 	{
 		//Hard animation to weapon 1
 		PlayMyAnimation(Attack_Animation_Montage,1.0f, SocketPlay,0.0f,true);
-		FTimerHandle TimerHandle;
-		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&]()
+		//FTimerHandle TimerHandle2;
+		GetWorld()->GetTimerManager().SetTimer(MyGameInstance->TimerHandle2, [&]()
 		{
 			if(MyCameraShake)
 			{
@@ -323,8 +323,8 @@ void AMyCharacterM::WeaponSelection1()
 			FName SheatheSword=FName(TEXT("SheatheSword"));
 			PlayMyAnimation(Attack_Animation_Montage,1.9f, SheatheSword,0.0f,true);
 			PlayMyAnimation(Attack_Animation_Montage,-1.9f, SheatheSword,0.0f, true);
-			FTimerHandle TimerHandle;
-			GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&]()
+			//FTimerHandle TimerHandle3;
+			GetWorld()->GetTimerManager().SetTimer(MyGameInstance->TimerHandle3, [&]()
 			{
 				KatanaInHand->SetVisibility(true);
 				KatanaInBack->SetVisibility(false);
@@ -345,10 +345,10 @@ void AMyCharacterM::WeaponSelection2()
 	{
 		if(weaponSelectionKey==1)
 		{
-			FTimerHandle TimerHandle;
+			//FTimerHandle TimerHandle4;
 			FName SheatheSword=FName(TEXT("SheatheSword"));
 			timeTMP=PlayMyAnimation(Attack_Animation_Montage,1.9f, SheatheSword,0.0f,true);
-			GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&]()
+			GetWorld()->GetTimerManager().SetTimer(MyGameInstance->TimerHandle4, [&]()
 			{
 				KatanaInHand->SetVisibility(false);
 				KatanaInBack->SetVisibility(true);
@@ -464,8 +464,14 @@ bool AMyCharacterM::SetActiveMagic()//bool ActiveMagic)
 	UIPlayerHUD->SetMagicAvailable(1);
 	AddScore(100);
 	return true;
+}
 
-	
+bool AMyCharacterM::SetActiveKey()
+{
+	bKeyIsActive=true; 
+	UGameplayStatics::PlaySound2D(this, SC_Change_Weapon_Sound);
+	AddScore(100);
+	return true;
 }
 
 void AMyCharacterM::NotifyHit(UPrimitiveComponent* MyComp, AActor* Other, UPrimitiveComponent* OtherComp,
@@ -596,10 +602,10 @@ float AMyCharacterM::TakeDamage(float DamageAmount, FDamageEvent const& DamageEv
 	
 		if(Health<=0 || isDead)
 		{
-			UIPlayerHUD->RemoveFromParent();
-			UIPlayerHUD=nullptr;
+			//UIPlayerHUD->RemoveFromParent();
+			//UIPlayerHUD=nullptr;
 			isDead=true;
-			//ViewDeathMenu();
+			ViewDeathMenu();
 			//OnDead();
 			//EndPlay(EEndPlayReason::Destroyed);
 			//Destroy();
@@ -618,8 +624,8 @@ float AMyCharacterM::TakeDamage(float DamageAmount, FDamageEvent const& DamageEv
 		}
 		RestoreHealthLevel();
 	}
-	FTimerHandle TimerHandle;
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&]()
+	//FTimerHandle TimerHandle5;
+	GetWorld()->GetTimerManager().SetTimer(MyGameInstance->TimerHandle5, [&]()
 	{
 		bHitEvent=false;
 		EnableMovement();
@@ -637,7 +643,7 @@ void AMyCharacterM::OnDead()
 	
 	Gmode->RestartGameTimer();*/
 	
-	UnPossessed();
+	//UnPossessed();
 	//Destroy();	
 }
 
@@ -703,25 +709,24 @@ void AMyCharacterM::AddScore(float score)
 	if(Points>=100 && Points<200)
 	{//Level 2
 		UpdateLevelHUD(1,Points-100,200);
-		
+		MagicRestoreVelocity=0.7f;
+		HealthRestoreVelocity=0.7f;
 
 	}
 	if(Points>=200 && Points<300)
 	{//Level 3
 		UpdateLevelHUD(2,Points-200,300);
-		MagicRestoreVelocity=0.8f;
-		HealthRestoreVelocity=0.8f;
-		
+				
 	}
 	if(Points>=300 && Points<400)
 	{//Level4
 		UpdateLevelHUD(3,Points-300,400);
-		
+		MagicRestoreVelocity=0.6f;
 	}
 	if(Points>=400 && Points<=500)
 	{//Level 5
 		UpdateLevelHUD(4,Points-100,500);
-		MagicRestoreVelocity=0.6f;
+		
 	
 	}
 	if(Points>=500)
@@ -762,7 +767,7 @@ void AMyCharacterM::RestoreHealthLevel()
 	{
 		//float tmpHealthRestoreValue=MyGameInstance->PlayerHealth;
 		//FTimerHandle TimerHandle;
-		GetWorld()->GetTimerManager().SetTimer(MyGameInstance->TimerMovementGI, [&]()
+		GetWorld()->GetTimerManager().SetTimer(MyGameInstance->TimerRestoreHealthGI, [&]()
 		{
 			Health=Health+0.1;
 			//tmpHealthRestoreValue=FMath::Clamp(tmpHealthRestoreValue+0.1f,0.0,MyGameInstance->PlayerMaxHealth);

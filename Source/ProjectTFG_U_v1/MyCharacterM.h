@@ -164,6 +164,8 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Atack_Animation, meta=(AllowPrivateAccess="true"))
 	bool bMagicIsActive{false};
 	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Atack_Animation, meta=(AllowPrivateAccess="true"))
+	bool bKeyIsActive{false};
 	
 	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 	virtual void OnDead();
@@ -284,6 +286,7 @@ public:
 	//Relations PickUp
 	bool SetActivateSwordPickUp(bool iSActive);  // {MyGameInstance->PlayerbSwordIsActive=iSActive; return SetActivateSword();};
     bool SetActivateSword();//bool ActiveSword);
+	bool SetActiveKey();
 	//FORCEINLINE
 	bool SetActiveMagic();//bool ActiveMagic);
 	//FORCEINLINE

@@ -14,7 +14,6 @@
 
 void UMyHUDWidget::SetHealth(float CurrentHealth, float MaxHealth)
 {
-	
 	if (HealthBar)
 	{
 		HealthBar->SetPercent(CurrentHealth /MaxHealth );
