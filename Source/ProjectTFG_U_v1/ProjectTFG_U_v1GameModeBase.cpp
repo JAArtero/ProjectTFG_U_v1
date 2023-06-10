@@ -75,7 +75,6 @@ int AProjectTFG_U_v1GameModeBase::selecIndexTalk()
 void AProjectTFG_U_v1GameModeBase::OnRestartGame()
 {
 
-	//UGameplayStatics::OpenLevel(GetWorld(),    FName("Level1")); //    FName(GetWorld()->GetFName()));//    FName("Level1"))
 }
 
 //Setters

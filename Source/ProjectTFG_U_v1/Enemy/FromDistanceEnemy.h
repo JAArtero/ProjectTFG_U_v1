@@ -1,9 +1,10 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+
 
 #pragma once
 
 #include "CoreMinimal.h"
 #include "ProjectTFG_U_v1/Enemy/Enemy.h"
+#include "ProjectTFG_U_v1/Enemy/RayProjectile.h"
 #include "FromDistanceEnemy.generated.h"
 
 /**

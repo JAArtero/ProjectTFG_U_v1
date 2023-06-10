@@ -64,12 +64,27 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=stats)
 	bool PlayerbMagicIsActive;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,  Category=Missions)
+	bool initTalk {false};
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,  Category=Missions)
+	bool SwordMissionComplete {false};
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,  Category=Missions)
+	bool SwordMissionMessage {false};
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,  Category=Missions)
+	bool MagicMissionComplete{false};
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,  Category=Missions)
+	bool MagicMissionMessage{false};
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,  Category=Missions)
+	bool RuinMissionComplete{false};
 	
 
 
 public:
-	//void PlayerRestoreHealth(float Health, float Max_Health, float velocity);
-	//void PlayerRestoreMagic();
 	void DeathMenu();
 
 	//Timer for restore levels

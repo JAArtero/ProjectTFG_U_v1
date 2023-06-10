@@ -94,7 +94,7 @@ void AMyCharacterM::BeginPlay()
 	
 	
 	//HUD Layer
-	if(IsLocallyControlled() && PlayerHUDClass) // && !isDead)
+	if(IsLocallyControlled() && PlayerHUDClass)
 	{
 		APlayerController* FPC=GetController<APlayerController>();
 		check(FPC);
@@ -109,6 +109,7 @@ void AMyCharacterM::BeginPlay()
 		AddScore(0);
 	}
 
+	
 	// Bind Function Overlap Sword
 	SwordCollision->OnComponentBeginOverlap.AddDynamic(this, &AMyCharacterM::OnSwordOverlap);
 	
@@ -793,9 +794,20 @@ void AMyCharacterM::RestoreFromGameInstance()
 	if(bMagicIsActive) UIPlayerHUD->SetMagicAvailable(1);
     if (Health<100) RestoreHealthLevel();
     if (MagicForce<100) RestoreMagicLevel();
-	AddScore(0);
+	AddScore(Points);
 
 	
+}
+
+void AMyCharacterM::HUDHidde()
+{
+	UIPlayerHUD->SetVisibility(ESlateVisibility::Hidden);
+	
+}
+
+void AMyCharacterM::HUDVisible()
+{
+	UIPlayerHUD->SetVisibility(ESlateVisibility::Visible);
 }
 
 

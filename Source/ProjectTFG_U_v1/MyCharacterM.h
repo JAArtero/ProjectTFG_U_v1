@@ -277,7 +277,9 @@ public:
 	UFUNCTION(BlueprintCallable )bool GetIsDeathPlayer() const {return isDead;};
 	UFUNCTION(BlueprintCallable )bool GetHitEvent() const {return bHitEvent;};
 	UFUNCTION(BlueprintCallable) void RestoreFromGameInstance();
-
+	UFUNCTION(BlueprintCallable)  void HUDHidde();
+	UFUNCTION(BlueprintCallable)  void HUDVisible();
+	
 	// Active and deactive sword Box Collision
 	virtual void ActivateSwordBoxCollision();
 	virtual void DeactivateSwordBoxCollision();

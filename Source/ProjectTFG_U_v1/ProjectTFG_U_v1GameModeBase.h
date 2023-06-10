@@ -32,32 +32,32 @@ public:
 	int selecIndexTalk();
 
 		
+
 private:
 	UFUNCTION()
 	void OnRestartGame();
 	FTimerHandle RestartGame_TimerHandle{};
-
-	UPROPERTY(EditDefaultsOnly, Category=Missions)
+private:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,  Category=Missions, meta=(AllowPrivateAccess="true"))
 	bool initTalk {false};
 
 	UPROPERTY(EditDefaultsOnly, Category=Missions)
 	bool SwordMissionComplete {false};
 	
-	UPROPERTY(EditDefaultsOnly, Category=Missions)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,  Category=Missions, meta=(AllowPrivateAccess="true"))
 	bool SwordMissionMessage {false};
 
 	UPROPERTY(EditDefaultsOnly, Category=Missions)
 	bool MagicMissionComplete{false};
 
-	UPROPERTY(EditDefaultsOnly, Category=Missions)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,  Category=Missions, meta=(AllowPrivateAccess="true"))
 	bool MagicMissionMessage{false};
 	
 	UPROPERTY(EditDefaultsOnly, Category=Missions)
 	bool RuinMissionComplete{false};
 	
-	UPROPERTY(EditDefaultsOnly, Category=Missions)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,  Category=Missions, meta=(AllowPrivateAccess="true"))
 	bool RuinMissionMessage{false};
-
 public:
 	//Getter
 	bool GetInitTalk() const;

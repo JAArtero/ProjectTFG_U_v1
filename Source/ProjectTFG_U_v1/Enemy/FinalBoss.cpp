@@ -20,7 +20,7 @@ AFinalBoss::AFinalBoss()
 	
 	//Ray Particle
 	RayProjectile = CreateDefaultSubobject<USceneComponent>(TEXT("Projectile Spawn Spot"));
-	RayProjectile->SetupAttachment(RootComponent);
+	RayProjectile->SetupAttachment( RootComponent );//SocketforDistance);     //RootComponent);
 
 	//Create Arm box Collision
 	ArmCollision=CreateDefaultSubobject<UBoxComponent>(TEXT("Arm Collision Box"));
@@ -157,25 +157,8 @@ void AFinalBoss::ProjectileAttack(FName SocketName)
 		FVector ForwardVector = GetActorForwardVector(); //Front location
 		ForwardVector *= ImpulsePower;
 						
-		//Fire Collision	
-		/*const FVector StartFire=Fire_SocketTransform.GetLocation();
-		const FQuat RotationFire=Fire_SocketTransform.GetRotation();
-		const FVector RotationFireAxis=RotationFire.GetAxisX();
-		const FVector EndFire=(StartFire+RotationFireAxis*10000.f);
-		GetWorld()->LineTraceSingleByChannel(FireHit, StartFire, FirstPlayerLocation, ECC_Visibility); //Calculate direction
-		DrawDebugLine(GetWorld(), StartFire, FirstPlayerLocation, FColor::Blue, false, 0.5f); */
-		
 		CollisionSphere->AddImpulse(ForwardVector,NAME_None, true );
 	
-		//if(FireHit.bBlockingHit && ImpactParticles)//Detecta si existe colisión para dibujar trayectoria e impacto, o no dibuja nada OJO
-		//{
-		//DrawDebugPoint(GetWorld(),FireHit.ImpactPoint, 60, FColor:: Red, false, 3.f);
-		//UGameplayStatics::SpawnEmitterAtLocation(GetWorld(),ImpactParticles,FireHit.ImpactPoint);
-		//auto actor=FireHit.GetActor();
-		//auto owner=GetOwner();
-		//UGameplayStatics::ApplyPointDamage(actor, 20.0, FireHit.ImpactNormal, FireHit, GetInstigatorController(),owner, UDamageType::StaticClass());
-		//UGameplayStatics::ApplyDamage(FireHit.GetActor(),10, GetController(), this, UDamageType::StaticClass());
-		//}
 	}
 
 }
